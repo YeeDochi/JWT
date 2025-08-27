@@ -16,7 +16,7 @@ services:
     volumes:
         - ./data:/var/lib/mysql
   myapp:
-      build: . # Dockerfile must be in the same directory
+      build: . 
       ports:
         - '8080:8080'
       environment:

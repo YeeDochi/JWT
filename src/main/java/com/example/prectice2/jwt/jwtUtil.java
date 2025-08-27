@@ -5,6 +5,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.example.prectice2.entity.userEntity;
 import com.example.prectice2.repository.userRepository;
 
 import javax.crypto.SecretKey;
@@ -49,12 +50,13 @@ public class jwtUtil {
                 .compact();
     }
 
-    public String refreshAccessToken(String refreshToken, userRepository userRepository, Long expiration) {
-     if (isExpired(refreshToken)) {
-        throw new RuntimeException("Refresh token expired");
-        }
-        String username = getUsername(refreshToken);
-        String role = userRepository.findRoleByUsername(username);
-        return generateToken(username, role, expiration);
-    }
+    // public String refreshAccessToken(String refreshToken, userRepository userRepository, Long expiration) {
+    //  if (isExpired(refreshToken)) {
+    //     throw new RuntimeException("Refresh token expired");
+    //     }
+    //     String username = getUsername(refreshToken);
+    //     userEntity user = userRepository.findByUsername(username);
+    //     String role = user.getRole();
+    //     return generateToken(username, role, expiration);
+    // }
 }

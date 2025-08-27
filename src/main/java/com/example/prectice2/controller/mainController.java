@@ -3,6 +3,7 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import com.example.prectice2.service.tokenService;
+import com.example.prectice2.DTO.loginDto;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -50,8 +51,13 @@ public class mainController {
             }
         }
         try {
-            String newAccessToken = tokenService.refreshAccessToken(refreshToken);
-            response.setHeader("Authorization", "Bearer " + newAccessToken);
+            loginDto tokens = tokenService.refreshAccessToken(refreshToken, response);
+            Cookie refreshCookie = new Cookie("refreshToken", tokens.refreshToken());
+            refreshCookie.setHttpOnly(true);
+            refreshCookie.setPath("/");
+            refreshCookie.setMaxAge(7 * 24 * 60 * 60); // 7일 등 만료시간 설정
+            response.addCookie(refreshCookie);
+            response.setHeader("Authorization", "Bearer " + tokens.accessToken());
             return "successfully refreshed token";
         } catch (Exception e) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

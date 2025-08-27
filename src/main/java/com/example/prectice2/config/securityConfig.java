@@ -17,9 +17,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.AuthenticationConverter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import java.util.Collections;
@@ -89,7 +87,6 @@ public class securityConfig {
                 .addFilterBefore(new jwtFilter(jwtUtil),loginFilter.class);
         http
                 .addFilterAt(new loginFilter(authenticationManager(authenticationConfiguration),jwtUtil,Exp,refreshExp), UsernamePasswordAuthenticationFilter.class);
-
 
         http
                 .sessionManagement((session)->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
